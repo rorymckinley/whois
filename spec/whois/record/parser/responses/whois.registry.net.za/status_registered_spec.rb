@@ -26,4 +26,28 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_registered.expected"
       @parser.available?.should == false
     end
   end
+  describe "#registered?" do
+    it do
+      @parser.registered?.should == true
+    end
+  end
+  describe "#nameservers" do
+    it do
+      @parser.nameservers.should be_a(Array)
+      @parser.nameservers.should have(3).items
+      @parser.nameservers[0].should be_a(Whois::Record::Nameserver)
+      @parser.nameservers[0].name.should == "ns2.host-h.net"
+      @parser.nameservers[1].should be_a(Whois::Record::Nameserver)
+      @parser.nameservers[1].name.should == "ns1.dns-h.com"
+      @parser.nameservers[2].should be_a(Whois::Record::Nameserver)
+      @parser.nameservers[2].name.should == "ns1.host-h.net"
+    end
+  end
+  describe "#registrar" do
+    it do
+      @parser.registrar.should be_a(Whois::Record::Registrar)
+      @parser.registrar.id.should == "epag"
+      @parser.registrar.name.should == "EPAG Domainservices"
+    end
+  end
 end
