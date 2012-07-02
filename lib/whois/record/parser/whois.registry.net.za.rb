@@ -26,6 +26,15 @@ module Whois
             Whois::Record::Registrar.new(:name => $1.strip, :id => $2.strip)
           end
         end
+
+        property_supported :registrant_contacts do
+          if content_for_scanner =~ /Registrant:\n((.+\n)+)\n/
+            reg_details = $1.split("\n")
+            name = reg_details[0].strip
+            email = $1.strip if reg_details[1].strip =~ /^Email: (.+)$/
+          end
+          [Whois::Record::Contact.new(:type => Whois::Record::Contact::TYPE_REGISTRANT, :name => name, :email => email)]
+        end
       end
     end
   end

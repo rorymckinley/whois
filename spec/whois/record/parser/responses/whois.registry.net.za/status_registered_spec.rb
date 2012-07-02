@@ -50,4 +50,14 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_registered.expected"
       @parser.registrar.name.should == "EPAG Domainservices"
     end
   end
+  describe "#registrant_contacts" do
+    it do
+      @parser.registrant_contacts.should be_a(Array)
+      @parser.registrant_contacts.should have(1).items
+      @parser.registrant_contacts[0].should be_a(Whois::Record::Contact)
+      @parser.registrant_contacts[0].type.should         == Whois::Record::Contact::TYPE_REGISTRANT
+      @parser.registrant_contacts[0].name.should         == "Fred Flintstone"
+      @parser.registrant_contacts[0].email.should        == "someguy@somedomain.co.za"
+    end
+  end
 end
