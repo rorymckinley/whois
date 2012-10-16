@@ -5,7 +5,7 @@
         Fred Flintstone
         Email: someguy@somedomain.co.za
         Tel: +27.219000000
-        Fax:
+        Fax: +27.219001000
 
     Registrant's Address:
         30 Frazzita Business Park Durbanville
