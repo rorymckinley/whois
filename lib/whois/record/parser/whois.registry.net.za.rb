@@ -31,9 +31,30 @@ module Whois
           if content_for_scanner =~ /Registrant:\n((.+\n)+)\n/
             reg_details = $1.split("\n")
             name = reg_details[0].strip
-            email = $1.strip if reg_details[1].strip =~ /^Email: (.+)$/
+            email = get_email(reg_details[1])
+            telephone = get_telephone(reg_details[2])
+            fax = get_fax(reg_details[3])
           end
-          [Whois::Record::Contact.new(:type => Whois::Record::Contact::TYPE_REGISTRANT, :name => name, :email => email)]
+
+          if content_for_scanner =~ /Registrant's Address:\n((.+\n)+)\n/
+            address = ($1.split("\n").map { |part| part.strip }).join(" ")
+          end
+
+          [Whois::Record::Contact.new(:type => Whois::Record::Contact::TYPE_REGISTRANT, :name => name, :email => email, :phone => telephone, :fax => fax, :address => address)]
+        end
+
+        private
+
+        def get_email(email_candidate)
+          $1.strip if email_candidate.strip =~ /^Email: (.+)$/
+        end
+
+        def get_telephone(telephone_candidate)
+          $1.strip if telephone_candidate.strip =~ /^Tel: (.+)$/
+        end
+
+        def get_fax(fax_candidate)
+          $1.strip if fax_candidate.strip =~ /^Fax: (.+)$/
         end
       end
     end

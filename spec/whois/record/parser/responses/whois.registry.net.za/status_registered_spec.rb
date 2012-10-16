@@ -58,6 +58,9 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_registered.expected"
       @parser.registrant_contacts[0].type.should         == Whois::Record::Contact::TYPE_REGISTRANT
       @parser.registrant_contacts[0].name.should         == "Fred Flintstone"
       @parser.registrant_contacts[0].email.should        == "someguy@somedomain.co.za"
+      @parser.registrant_contacts[0].phone.should        == "+27.219000000"
+      @parser.registrant_contacts[0].fax.should          == "+27.219001000"
+      @parser.registrant_contacts[0].address.should      == "30 Frazzita Business Park Durbanville Cape Town ZA 7550"
     end
   end
 end
