@@ -57,4 +57,16 @@ describe Whois::Record::Scanners::WhoisRegistryNetZa do
   it "parses out any status values" do
     subject.parse[:status].should eq ["ok", "autorenew"]
   end
+
+  it "parses out pending timer events" do
+    subject.parse[:pending_timer_events].should eq "None"
+  end
+
+  it "parses out the nameservers" do
+    subject.parse[:nameservers].should eq ["ns2.host-h.net","ns1.dns-h.com","ns1.host-h.net"]
+  end
+
+  it "parses out the disclaimer" do
+    subject.parse[:disclaimer].should include "https://registry.net.za/whois_terms"
+  end
 end
