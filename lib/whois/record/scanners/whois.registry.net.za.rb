@@ -22,43 +22,41 @@ module Whois
           :get_status,
           :get_pending_timer_events,
           :get_nameservers,
-          :get_disclaimer,
-          :catchall
+          :get_disclaimer
         ]
 
         tokenizer :get_domain_name do
-          if @input.skip_until(/    Domain Name:\n/)
-            @ast[:domain_name] = content_in_category.strip
+          if find_heading("Domain Name")
+            @ast[:domain_name] = content_in_category
           end
         end
 
         tokenizer :get_registrant_details do
-          if @input.skip_until(/    Registrant:\n/)
-            registrant_data = content_in_category.strip
-            registrant_lines = registrant_data.split("\n")
+          if find_heading("Registrant")
+            registrant_lines = content_in_category.split("\n")
             @ast[:registrant_name] = registrant_lines.shift
-            @ast[:registrant_email] = registrant_lines.shift.split(":").last.strip
-            @ast[:registrant_telephone] = registrant_lines.shift.split(":").last.strip
-            @ast[:registrant_fax] = registrant_lines.shift.split(":").last.strip
+            [:registrant_email, :registrant_telephone, :registrant_fax].each do |contact_method|
+              @ast[contact_method] = registrant_lines.shift.split(":").last.strip
+            end
           end
         end
 
         tokenizer :get_registrant_address do
-          if @input.skip_until(/    Registrant's Address:\n/)
-            @ast[:registrant_address] = content_in_category.strip.gsub(/\n\s+/, " ")
+          if find_heading("Registrant's Address")
+            @ast[:registrant_address] = content_in_category.gsub(/\n\s+/, " ")
           end
         end
 
         tokenizer :get_registrar_details do
-          if @input.skip_until(/    Registrar:\n/)
-            content_in_category.strip =~ /(.+) \[ ID = (.+) \]/
+          if find_heading("Registrar")
+            content_in_category =~ /(.+) \[ ID = (.+) \]/
             @ast[:registrar_name] = $1.strip
             @ast[:registrar_id] = $2.strip
           end
         end
 
         tokenizer :get_dates do
-          if @input.skip_until(/    Relevant Dates:\n/)
+          if find_heading("Relevant Dates")
             dates = content_in_category.split("\n")
             @ast[:registration_date] = dates.shift.split(":").last.strip
             @ast[:renewal_date] = dates.shift.split(":").last.strip
@@ -66,21 +64,21 @@ module Whois
         end
 
         tokenizer :get_status do
-          if @input.skip_until(/    Domain Status:\n/)
-            statuses = content_in_category.strip
+          if find_heading("Domain Status")
+            statuses = content_in_category
             @ast[:status] = statuses.split(", ")
           end
         end
 
         tokenizer :get_pending_timer_events do
-          if @input.skip_until(/    Pending Timer Events:\n/)
-            @ast[:pending_timer_events] = content_in_category.strip
+          if find_heading("Pending Timer Events")
+            @ast[:pending_timer_events] = content_in_category
           end
         end
 
         tokenizer :get_nameservers do
-          if @input.skip_until(/    Name Servers:\n/)
-            @ast[:nameservers] = content_in_category.strip.gsub(/\n\s+/, ",").split(",")
+          if find_heading("Name Servers")
+            @ast[:nameservers] = content_in_category.gsub(/\n\s+/, ",").split(",")
           end
         end
 
@@ -88,16 +86,16 @@ module Whois
           @ast[:disclaimer] = @input.scan_until(/\n--\n.*$/m)
         end
 
-        tokenizer :catchall do
-        end
-
         private
 
         def content_in_category
-          @input.scan_until(/(?=\n    [A-Z])/)
+          @input.scan_until(/(?=\n    [A-Z])/).strip
+        end
+
+        def find_heading(heading_name)
+          @input.skip_until(/    #{heading_name}:\n/)
         end
       end
     end
   end
 end
-
