@@ -18,6 +18,8 @@ module Whois
           :get_registrant_details,
           :get_registrant_address,
           :get_registrar_details,
+          :get_dates,
+          :get_status,
           :catchall
         ]
 
@@ -48,6 +50,22 @@ module Whois
           if @input.skip_until(/    Registrar:\n/)
             @input.scan_until(/(?=\n    [A-Z])/).strip =~ /(.+) \[ ID = (.+) \]/
             @ast[:registrar_name] = $1.strip
+            @ast[:registrar_id] = $2.strip
+          end
+        end
+
+        tokenizer :get_dates do
+          if @input.skip_until(/    Relevant Dates:\n/)
+            dates = @input.scan_until(/(?=\n    [A-Z])/).split("\n")
+            @ast[:registration_date] = dates.shift.split(":").last.strip
+            @ast[:renewal_date] = dates.shift.split(":").last.strip
+          end
+        end
+
+        tokenizer :get_status do
+          if @input.skip_until(/    Domain Status:\n/)
+            statuses = @input.scan_until(/(?=\n    [A-Z])/).strip
+            @ast[:status] = statuses.split(", ")
           end
         end
 

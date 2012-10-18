@@ -41,4 +41,20 @@ describe Whois::Record::Scanners::WhoisRegistryNetZa do
   it "parses out the registrar's name" do
     subject.parse[:registrar_name].should eq "EPAG Domainservices"
   end
+
+  it "parses out the registrar's id" do
+    subject.parse[:registrar_id].should eq "epag"
+  end
+
+  it "parses out the registration date" do
+    subject.parse[:registration_date].should eq "2012-03-27"
+  end
+
+  it "parses out the renewal date" do
+    subject.parse[:renewal_date].should eq "2013-03-27"
+  end
+
+  it "parses out any status values" do
+    subject.parse[:status].should eq ["ok", "autorenew"]
+  end
 end
