@@ -6,7 +6,7 @@ module Whois
     class Parser
       class WhoisRegistryNetZa < Base
         property_supported :available? do
-          false
+          content_for_scanner =~ /^Available$/
         end
 
         property_supported :registered? do
@@ -28,22 +28,37 @@ module Whois
         end
 
         property_supported :registrant_contacts do
-          if content_for_scanner =~ /Registrant:\n((.+\n)+)\n/
-            reg_details = $1.split("\n")
-            name = reg_details[0].strip
-            email = get_email(reg_details[1])
-            telephone = get_telephone(reg_details[2])
-            fax = get_fax(reg_details[3])
+          if registered?
+            build_registrant_contacts
+          else
+            []
           end
-
-          if content_for_scanner =~ /Registrant's Address:\n((.+\n)+)\n/
-            address = ($1.split("\n").map { |part| part.strip }).join(" ")
-          end
-
-          [Whois::Record::Contact.new(:type => Whois::Record::Contact::TYPE_REGISTRANT, :name => name, :email => email, :phone => telephone, :fax => fax, :address => address)]
         end
 
         private
+
+        def build_registrant_contacts
+          contact_list = []
+
+          contact = Whois::Record::Contact.new(
+            {:type => Whois::Record::Contact::TYPE_REGISTRANT}.merge(registrant_details).merge(registrant_address_details)
+          )
+
+          contact_list << contact
+        end
+
+        def registrant_details
+          if content_for_scanner =~ /Registrant:\n((.+\n)+)\n/
+            reg_details = $1.split("\n")
+            { :name => reg_details[0].strip, :email => get_email(reg_details[1]), :phone => get_telephone(reg_details[2]), :fax => get_fax(reg_details[3])}
+          end
+        end
+
+        def registrant_address_details
+          if content_for_scanner =~ /Registrant's Address:\n((.+\n)+)\n/
+            { :address => ($1.split("\n").map { |part| part.strip }).join(" ") }
+          end
+        end
 
         def get_email(email_candidate)
           $1.strip if email_candidate.strip =~ /^Email: (.+)$/
