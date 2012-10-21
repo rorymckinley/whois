@@ -52,15 +52,13 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_registered.expected"
   end
   describe "#registrant_contacts" do
     it do
-      subject.registrant_contacts.should be_a(Array)
-      subject.registrant_contacts.should have(1).items
-      subject.registrant_contacts[0].should be_a(Whois::Record::Contact)
-      subject.registrant_contacts[0].type.should         == Whois::Record::Contact::TYPE_REGISTRANT
-      subject.registrant_contacts[0].name.should         == "Fred Flintstone"
-      subject.registrant_contacts[0].email.should        == "someguy@somedomain.co.za"
-      subject.registrant_contacts[0].phone.should        == "+27.219000000"
-      subject.registrant_contacts[0].fax.should          == "+27.219001000"
-      subject.registrant_contacts[0].address.should      == "30 Frazzita Business Park Durbanville Cape Town ZA 7550"
+      subject.registrant_contacts.should be_a(Whois::Record::Contact)
+      subject.registrant_contacts.type.should         == Whois::Record::Contact::TYPE_REGISTRANT
+      subject.registrant_contacts.name.should         == "Fred Flintstone"
+      subject.registrant_contacts.email.should        == "someguy@somedomain.co.za"
+      subject.registrant_contacts.phone.should        == "+27.219000000"
+      subject.registrant_contacts.fax.should          == "+27.219001000"
+      subject.registrant_contacts.address.should      == "30 Frazzita Business Park Durbanville Cape Town ZA 7550"
     end
   end
 end

@@ -20,12 +20,10 @@
   should: %s.name == "EPAG Domainservices"
 
 #registrant_contacts
-  should: %s CLASS(array)
-  should: %s SIZE(1)
-  should: %s[0] CLASS(contact)
-  should: %s[0].type         == Whois::Record::Contact::TYPE_REGISTRANT
-  should: %s[0].name         == "Fred Flintstone"
-  should: %s[0].email        == "someguy@somedomain.co.za"
-  should: %s[0].phone        == "+27.219000000"
-  should: %s[0].fax          == "+27.219001000"
-  should: %s[0].address      == "30 Frazzita Business Park Durbanville Cape Town ZA 7550"
+  should: %s CLASS(contact)
+  should: %s.type         == Whois::Record::Contact::TYPE_REGISTRANT
+  should: %s.name         == "Fred Flintstone"
+  should: %s.email        == "someguy@somedomain.co.za"
+  should: %s.phone        == "+27.219000000"
+  should: %s.fax          == "+27.219001000"
+  should: %s.address      == "30 Frazzita Business Park Durbanville Cape Town ZA 7550"

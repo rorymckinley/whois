@@ -14,6 +14,7 @@ module Whois
 
       class WhoisRegistryNetZa < Base
         self.tokenizers += [
+          :get_availability,
           :get_domain_name,
           :get_registrant_details,
           :get_registrant_address,
@@ -24,6 +25,12 @@ module Whois
           :get_nameservers,
           :get_disclaimer
         ]
+
+        tokenizer :get_availability do
+          if @input.scan_until(/^Available\n$/m)
+            @ast[:available] = true
+          end
+        end
 
         tokenizer :get_domain_name do
           if find_heading("Domain Name")
