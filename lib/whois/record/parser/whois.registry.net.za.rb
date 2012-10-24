@@ -21,6 +21,10 @@ module Whois
           !available?
         end
 
+        property_supported :domain do
+          node(:domain_name)
+        end
+
         property_supported :nameservers do
           if registered?
             node(:nameservers).map { |nameserver| Record::Nameserver.new(:name => nameserver) }
@@ -37,6 +41,7 @@ module Whois
           end
         end
 
+        # The response for this property gets wrapped in an array by Whois::Record::Parser::Base#handle_property
         property_supported :registrant_contacts do
           if registered?
             build_registrant_contacts
@@ -52,7 +57,7 @@ module Whois
         private
 
         def build_registrant_contacts
-          contact = Whois::Record::Contact.new(
+          Whois::Record::Contact.new(
             {:type => Whois::Record::Contact::TYPE_REGISTRANT}.merge(registrant_details).merge(registrant_address_details)
           )
         end
