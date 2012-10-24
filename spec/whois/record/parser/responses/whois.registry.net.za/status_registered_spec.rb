@@ -68,4 +68,9 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_registered.expected"
       subject.domain.should == "broccoliwafflesareawesome.co.za"
     end
   end
+  describe "#created_on" do
+    it do
+      subject.created_on.should == Time.new(2012,3,27,nil,nil,nil,"+02:00")
+    end
+  end
 end

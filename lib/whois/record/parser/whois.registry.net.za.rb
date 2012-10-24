@@ -25,6 +25,11 @@ module Whois
           node(:domain_name)
         end
 
+        property_supported :created_on do
+          date_parts = node(:registration_date).split("-")
+          Time.new(*date_parts,nil,nil,nil,"+02:00")
+        end
+
         property_supported :nameservers do
           if registered?
             node(:nameservers).map { |nameserver| Record::Nameserver.new(:name => nameserver) }

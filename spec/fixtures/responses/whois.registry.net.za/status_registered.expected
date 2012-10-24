@@ -32,3 +32,6 @@
 
 #domain
   should: %s == "broccoliwafflesareawesome.co.za"
+
+#created_on
+  should: %s == Time.new(2012,3,27,nil,nil,nil,"+02:00")
