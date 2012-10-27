@@ -64,6 +64,10 @@ module Whois
           node(:status)
         end
 
+        property_supported :disclaimer do
+          node(:disclaimer)
+        end
+
         def parse
           Scanners::WhoisRegistryNetZa.new(content_for_scanner).parse
         end

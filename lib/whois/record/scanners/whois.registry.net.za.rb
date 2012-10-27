@@ -90,7 +90,8 @@ module Whois
         end
 
         tokenizer :get_disclaimer do
-          @ast[:disclaimer] = @input.scan_until(/\n--\n.*$/m)
+          @input.skip_until(/\n--\n/m)
+          @ast[:disclaimer] = @input.scan_until(/.*$/m)
         end
 
         private

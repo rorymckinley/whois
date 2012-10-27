@@ -83,4 +83,9 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_registered.expected"
       subject.expires_on.should == Time.new(2013,3,27,nil,nil,nil,"+02:00")
     end
   end
+  describe "#disclaimer" do
+    it do
+      subject.disclaimer.should == "The use of this Whois facility is subject to the following terms and\nconditions. https://registry.net.za/whois_terms\nCopyright (c) UniForum SA 1995-2012\n"
+    end
+  end
 end

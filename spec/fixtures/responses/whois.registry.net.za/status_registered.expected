@@ -41,3 +41,6 @@
 
 #expires_on
   should: %s == Time.new(2013,3,27,nil,nil,nil,"+02:00")
+
+#disclaimer
+  should: %s == "The use of this Whois facility is subject to the following terms and\nconditions. https://registry.net.za/whois_terms\nCopyright (c) UniForum SA 1995-2012\n"
