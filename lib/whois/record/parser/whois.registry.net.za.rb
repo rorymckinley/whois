@@ -26,13 +26,11 @@ module Whois
         end
 
         property_supported :created_on do
-          date_parts = node(:registration_date).split("-")
-          Time.new(*date_parts,nil,nil,nil,"+02:00")
+          parse_date(node(:registration_date))
         end
 
         property_supported :expires_on do
-          date_parts = node(:renewal_date).split("-")
-          Time.new(*date_parts,nil,nil,nil,"+02:00")
+          parse_date(node(:renewal_date))
         end
 
         property_supported :nameservers do
@@ -95,6 +93,15 @@ module Whois
 
         def registrant_address_details
           { :address => node(:registrant_address) }
+        end
+
+        def parse_date(date_string)
+          if date_string
+            date_parts = date_string.split("-")
+            Time.new(*date_parts,nil,nil,nil,"+02:00")
+          else
+            nil
+          end
         end
       end
     end

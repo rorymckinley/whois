@@ -12,3 +12,18 @@
 
 #registrant_contacts
   should: %s be_empty
+
+#domain
+  should: %s be_nil
+
+#created_on
+  should: %s be_nil
+
+#status
+  should: %s be_nil
+
+#expires_on
+  should: %s be_nil
+
+#disclaimer
+  should: %s be_nil

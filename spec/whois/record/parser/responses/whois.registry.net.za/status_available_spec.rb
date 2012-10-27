@@ -46,4 +46,29 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_available.expected" 
       subject.registrant_contacts.should be_empty
     end
   end
+  describe "#domain" do
+    it do
+      subject.domain.should be_nil
+    end
+  end
+  describe "#created_on" do
+    it do
+      subject.created_on.should be_nil
+    end
+  end
+  describe "#status" do
+    it do
+      subject.status.should be_nil
+    end
+  end
+  describe "#expires_on" do
+    it do
+      subject.expires_on.should be_nil
+    end
+  end
+  describe "#disclaimer" do
+    it do
+      subject.disclaimer.should be_nil
+    end
+  end
 end
