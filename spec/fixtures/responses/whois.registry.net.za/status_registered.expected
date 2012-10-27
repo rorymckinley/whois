@@ -35,3 +35,9 @@
 
 #created_on
   should: %s == Time.new(2012,3,27,nil,nil,nil,"+02:00")
+
+#status
+  should: %s == ['ok', 'autorenew']
+
+#expires_on
+  should: %s == Time.new(2013,3,27,nil,nil,nil,"+02:00")

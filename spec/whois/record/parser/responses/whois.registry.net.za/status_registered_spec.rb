@@ -73,4 +73,14 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_registered.expected"
       subject.created_on.should == Time.new(2012,3,27,nil,nil,nil,"+02:00")
     end
   end
+  describe "#status" do
+    it do
+      subject.status.should == ['ok', 'autorenew']
+    end
+  end
+  describe "#expires_on" do
+    it do
+      subject.expires_on.should == Time.new(2013,3,27,nil,nil,nil,"+02:00")
+    end
+  end
 end

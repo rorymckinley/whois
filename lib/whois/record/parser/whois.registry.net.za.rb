@@ -30,6 +30,11 @@ module Whois
           Time.new(*date_parts,nil,nil,nil,"+02:00")
         end
 
+        property_supported :expires_on do
+          date_parts = node(:renewal_date).split("-")
+          Time.new(*date_parts,nil,nil,nil,"+02:00")
+        end
+
         property_supported :nameservers do
           if registered?
             node(:nameservers).map { |nameserver| Record::Nameserver.new(:name => nameserver) }
@@ -53,6 +58,10 @@ module Whois
           else
             []
           end
+        end
+
+        property_supported :status do
+          node(:status)
         end
 
         def parse
