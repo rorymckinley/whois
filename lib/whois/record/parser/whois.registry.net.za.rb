@@ -68,6 +68,13 @@ module Whois
           node(:disclaimer)
         end
 
+        property_not_supported :domain_id
+        property_not_supported :referral_whois
+        property_not_supported :referral_url
+        property_not_supported :updated_on
+        property_not_supported :admin_contacts
+        property_not_supported :technical_contacts
+
         def parse
           Scanners::WhoisRegistryNetZa.new(content_for_scanner).parse
         end

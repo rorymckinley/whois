@@ -44,3 +44,21 @@
 
 #disclaimer
   should: %s == "The use of this Whois facility is subject to the following terms and\nconditions. https://registry.net.za/whois_terms\nCopyright (c) UniForum SA 1995-2012\n"
+
+#domain_id
+  should: %s raise_error Whois::PropertyNotSupported
+
+#referral_whois
+  should: %s raise_error Whois::PropertyNotSupported
+
+#referral_url
+  should: %s raise_error Whois::PropertyNotSupported
+
+#updated_on
+  should: %s raise_error Whois::PropertyNotSupported
+
+#admin_contacts
+  should: %s raise_error Whois::PropertyNotSupported
+
+#technical_contacts
+  should: %s raise_error Whois::PropertyNotSupported
