@@ -2,7 +2,7 @@
   should: %s be_false
 
 #registered?
-  should: %s == true
+  should: %s be_true
 
 #nameservers
   should: %s CLASS(array)

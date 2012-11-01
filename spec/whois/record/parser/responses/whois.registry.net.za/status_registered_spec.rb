@@ -28,7 +28,7 @@ describe Whois::Record::Parser::WhoisRegistryNetZa, "status_registered.expected"
   end
   describe "#registered?" do
     it do
-      subject.registered?.should == true
+      subject.registered?.should be_true
     end
   end
   describe "#nameservers" do
